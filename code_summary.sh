@@ -23,9 +23,9 @@ else
     done
 fi
 
-fileCount=`find "$dir" $condition | wc -l`
-totalLines=`find "$dir" $condition | xargs cat | wc -l`
-avg=`awk 'BEGIN{ printf "%.2f\n", '$totalLines' / '$fileCount' }'`
+fileCount=$(find "$dir" $condition | wc -l | xargs) # use xargs at end of line for trim
+totalLines=$(find "$dir" $condition | xargs cat | wc -l | xargs)
+avg=$(awk 'BEGIN{printf "%.2f\n", '$totalLines'/'$fileCount'}')
 
 echo "Summary:"
 
@@ -36,6 +36,6 @@ echo -e "             avg: $avg"
 
 echo "Detail:"
 
-detail=`find "$dir" $condition | xargs wc -l | sort -n -r | head -n 11 | sed '1d'`
+detail=$(find "$dir" $condition | xargs wc -l | sort -n -r | head -n 11 | sed '1d')
 
 echo -e "$detail"
